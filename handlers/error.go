@@ -49,6 +49,7 @@ func internalServerError(c *gin.Context, err error) {
 	})
 }
 
+//nolint:unused // помощник ответа об ошибке, остаётся в наборе для новых обработчиков
 func conflict(c *gin.Context, err error) {
 	c.JSON(http.StatusConflict, gin.H{
 		"error":   "Conflict",
@@ -56,6 +57,7 @@ func conflict(c *gin.Context, err error) {
 	})
 }
 
+//nolint:unused // помощник ответа об ошибке, остаётся в наборе для новых обработчиков
 func unprocessableEntity(c *gin.Context, err error) {
 	c.JSON(http.StatusUnprocessableEntity, gin.H{
 		"error":   "Unprocessable Entity",

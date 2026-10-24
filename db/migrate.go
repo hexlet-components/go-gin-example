@@ -32,7 +32,9 @@ func DefaultMigrationOptions() *MigrationOptions {
 
 // openDB opens a database connection with the given options
 func openDB(opts *MigrationOptions) (*sql.DB, error) {
-	goose.SetDialect(opts.Dialect)
+	if err := goose.SetDialect(opts.Dialect); err != nil {
+		return nil, err
+	}
 
 	db, err := sql.Open(opts.Dialect, opts.DBFile)
 	if err != nil {
@@ -57,7 +59,7 @@ func MigrateUp(opts *MigrationOptions) error {
 	if err != nil {
 		return err
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	return goose.Up(db, opts.MigrationsDir)
 }
@@ -72,7 +74,7 @@ func MigrateDown(opts *MigrationOptions) error {
 	if err != nil {
 		return err
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	return goose.Down(db, opts.MigrationsDir)
 }
@@ -87,7 +89,7 @@ func MigrateStatus(opts *MigrationOptions) error {
 	if err != nil {
 		return err
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	return goose.Status(db, opts.MigrationsDir)
 }

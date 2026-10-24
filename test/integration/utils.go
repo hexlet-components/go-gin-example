@@ -31,7 +31,9 @@ func setupTestDB(t *testing.T) *sql.DB {
 }
 
 func applyMigrations(database *sql.DB, migrationsDir string) error {
-	goose.SetDialect("sqlite3")
+	if err := goose.SetDialect("sqlite3"); err != nil {
+		return err
+	}
 	return goose.Up(database, migrationsDir)
 }
 
